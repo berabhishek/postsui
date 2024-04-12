@@ -33,4 +33,22 @@ async function getMappedPosts() {
         return {...post, "user": mapUser(post.userId)}
     });
 }
-export { getData, getUserFromId, getMappedPosts }
+
+async function getComments(postId) {
+    try {
+        let comments = sessionStorage.getItem("comments");
+        if (comments) comments = JSON.parse(comments);
+        else comments = {};
+        if (!comments?.[postId]) {
+            let resp = await fetch(URL_MAP["comments"]+"?postId="+postId);
+            let data = await resp.json();
+            comments[postId] = data;
+            sessionStorage.setItem("comments", JSON.stringify(comments));
+        }
+        return JSON.parse(sessionStorage.getItem("comments"))[postId];
+    } catch(err) {
+        return [];
+    }
+}
+
+export { getData, getUserFromId, getMappedPosts, getComments }

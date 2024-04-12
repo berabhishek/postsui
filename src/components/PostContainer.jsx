@@ -15,7 +15,7 @@ export default function PostContainer(props) {
     }, []);
 
     return (
-        <div className="posts-container flex-col items-center">
+        <div className="posts-container flex-col items-center w-full">
             {isLoading && <ClipLoader size={150} loading={isLoading} />}
             {posts.map((post, iteration) => <PostComponent key={"p"+iteration.toString()}{...post} />)}
         </div>
